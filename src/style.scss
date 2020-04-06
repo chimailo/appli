@@ -1,0 +1,17 @@
+@import-normalize;
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('./Roboto-Regular.ttf');
+  font-weight: 600;
+  font-style: normal;
+}
+
+$body-color: #ff0;
+
+.hello {
+  color: $body-color;
+  font-size: 32px;
+  font-family: 'Roboto', sans-serif;
+  background: url('./img.jpg');
+}
