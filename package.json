@@ -3,36 +3,86 @@
   "version": "1.0.0",
   "description": "A configuration boilerplate for react, babel and webpack.",
   "private": true,
-  "scripts": {
-    "build": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "author": "Chima Ilo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chimailo/appli/issues"
   },
+  "homepage": "https://github.com/chimailo/appli#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chimailo/appli.git"
   },
   "keywords": [],
-  "author": "Chima Ilo",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/chimailo/appli/issues"
+  "scripts": {
+    "start": "webpack-dev-server --env development --open",
+    "build": "webpack --env production",
+    "lint": "tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
   },
-  "homepage": "https://github.com/chimailo/appli#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "npm run lint",
+      "git add"
+    ]
+  },
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "@types/react": "^16.9.33",
+    "@types/react-dom": "^16.9.6",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
+    "error-overlay-webpack-plugin": "^0.4.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-loader": "^4.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
     "file-loader": "^6.0.0",
+    "fork-ts-checker-webpack-plugin": "^4.1.3",
     "html-webpack-plugin": "^4.0.4",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-flexbugs-fixes": "^4.2.0",
     "postcss-loader": "^3.0.0",
     "postcss-normalize": "^8.0.1",
     "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.0.4",
+    "react-hot-loader": "^4.12.20",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.3",
+    "terser-webpack-plugin": "^2.3.5",
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "url-loader": "^4.0.0",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
-    "lodash": "^4.17.15"
-  }
+    "@mdi/js": "^5.0.45",
+    "@mdi/react": "^1.4.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

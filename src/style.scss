@@ -2,16 +2,21 @@
 
 @font-face {
   font-family: 'Roboto';
-  src: url('./Roboto-Regular.ttf');
-  font-weight: 600;
+  src: url('./assets/Roboto-Regular.ttf');
   font-style: normal;
 }
 
-$body-color: #ff0;
+$background-color: #030308;
 
-.hello {
-  color: $body-color;
-  font-size: 32px;
-  font-family: 'Roboto', sans-serif;
-  background: url('./img.jpg');
+body {
+  margin: 0;
+  font-family: 'Roboto';
+  background-color: $background-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
