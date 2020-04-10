@@ -1,2 +1,2 @@
 # appli
-A configuration boilerplate for react, babel and webpack.
+A configuration boilerplate for react, typescript and webpack.
