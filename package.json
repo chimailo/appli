@@ -1,5 +1,5 @@
 {
-  "name": "aquifer",
+  "name": "appli",
   "version": "1.0.0",
   "description": "A few reusable react components",
   "author": "",
@@ -10,12 +10,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chimailo/aquifer.git"
+    "url": "git+https://github.com/chimailo/appli.git"
   },
   "bugs": {
-    "url": "https://github.com/chimailo/aquifer/issues"
+    "url": "https://github.com/chimailo/appli/issues"
   },
-  "homepage": "https://github.com/chimailo/aquifer#readme",
+  "homepage": "https://github.com/chimailo/appli#readme",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --env.development",
@@ -29,10 +29,8 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "npm run lint:fix",
-      "git add"
-    ]
+    "*.js":
+      "npm run lint:fix"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
