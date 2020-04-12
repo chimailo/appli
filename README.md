@@ -1,2 +1,4 @@
 # appli
-A configuration boilerplate for react, typescript and webpack.
+A React with Webpack boilerplate.
+
+#### Features
