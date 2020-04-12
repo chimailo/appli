@@ -1,8 +1,4 @@
 # appli
-<<<<<<< HEAD
-=======
-[David](https://img.shields.io/david/dev/chimailo/appli)
->>>>>>> 6d20449ae250d38a7f3b5816949f816b667c7073
 
 A React with Webpack boilerplate.
 
@@ -18,13 +14,15 @@ A React with Webpack boilerplate.
 
 ## Usage
 
+### Development server
+
 ```bash
 npm start
 ```
 
 View server at `http://localhost:3000/`
 
-### Development server
+### Production server
 
 ```bash
 npm build
