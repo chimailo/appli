@@ -22,7 +22,7 @@ npm start
 
 View server at `http://localhost:3000/`
 
-### Production server
+### Production build
 
 ```bash
 npm build
@@ -40,10 +40,6 @@ Run `cd dist && http-server` to view the deploy.
 * Builds for development && production.
 * Hot Module Replacement.
 * Source Maps to ease debuging.
-
-## Author
-
-Chima Ilo
 
 ## License
 
