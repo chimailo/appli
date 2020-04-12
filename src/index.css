@@ -1,17 +1,15 @@
 @import-normalize;
 
 @font-face {
-  font-family: 'Roboto';
-  src: url('./assets/Roboto-Regular.ttf');
+  font-family: 'Merriweather';
+  src: url('./fonts/Merriweather-Bold.ttf');
   font-style: normal;
 }
 
-$background-color: #030308;
-
 body {
   margin: 0;
-  font-family: 'Roboto';
-  background-color: $background-color;
+  font-family: 'Merriweather';
+  background-color: #030308;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

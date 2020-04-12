@@ -1,31 +1,40 @@
 const path = require('path');
-const webpack = require('webpack');
-const postcssNormalize = require('postcss-normalize');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const flexbugFixes = require('postcss-flexbugs-fixes');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const postcssNormalize = require('postcss-normalize');
+const presetEnv = require('postcss-preset-env');
+const TerserPlugin = require('terser-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { HotModuleReplacementPlugin } = require('webpack');
 
-module.exports = (mode) => {
-  console.log('NODE_ENV:', mode);
+module.exports = (env) => {
+  const isDevelopment = env.development;
 
-  // VARIABLES
-  const isProduction = mode === 'production';
-  const isDevelopment = mode === 'development';
+  // eslint-disable-next-line no-console
+  console.log('NODE_ENV:', isDevelopment ? 'development' : 'production');
 
-  // CONFIGURATION
   const config = {};
 
-  config.devtool = isProduction
-    ? 'source-map'
-    : 'cheap-module-eval-source-map';
+  config.entry = './src/index.js';
 
-  config.entry = './src/index.tsx';
+  config.output = {
+    path: path.resolve(__dirname, 'dist'),
+    filename: isDevelopment
+      ? '[name].bundle.js'
+      : '[name].[contentHash].bundle.js',
+  };
 
-  config.mode = mode;
+  config.devtool = isDevelopment
+    ? 'cheap-module-eval-source-map'
+    : 'source-map';
+
+  config.mode = isDevelopment ? 'development' : 'production';
 
   config.module = {
     rules: [
@@ -33,9 +42,12 @@ module.exports = (mode) => {
         test: /\.(css|sass|scss)$/,
         use: [
           // Creates `style` nodes from JS strings
-          isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
           // Translates CSS into CommonJS
-          { loader: 'css-loader', options: { importLoaders: 2 } },
+          {
+            loader: 'css-loader',
+            options: { importLoaders: 2, sourceMap: true },
+          },
           // Compiles scss/sass to css
           { loader: 'sass-loader', options: { sourceMap: true } },
           // process CSS with PostCSS
@@ -44,10 +56,10 @@ module.exports = (mode) => {
             options: {
               ident: 'postcss',
               plugins: () => [
+                autoprefixer,
+                flexbugFixes,
+                presetEnv,
                 postcssNormalize(),
-                require('autoprefixer'),
-                require('postcss-preset-env'),
-                require('postcss-flexbugs-fixes'),
               ],
             },
           },
@@ -73,49 +85,32 @@ module.exports = (mode) => {
         },
       },
       {
-        test: /\.ts(x?)$/,
-        include: path.resolve(__dirname, 'src'),
-        loader: 'ts-loader',
-        options: {
-          // disable type checker - used in fork plugin
-          transpileOnly: true,
-        },
-      },
-      {
         test: /\.(js|jsx)$/,
-        include: path.resolve(__dirname, 'src'),
-        use: ['babel-loader', 'eslint-loader'],
+        exclude: /node_modules/,
+        loader: 'babel-loader',
       },
     ],
   };
 
-  config.output = {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  };
-
   config.plugins = [
+    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false }),
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin([{ from: 'public' }]),
     new HtmlWebpackPlugin({
       title: 'Webpack boilerplate',
-      favicon: './public/favicon.ico',
-      template: './public/index.html',
+      favicon: './src/favicon.ico',
+      template: './src/index.html',
     }),
-    new ForkTsCheckerWebpackPlugin({ eslint: true }),
   ];
 
   config.resolve = {
-    extensions: ['.js', '.ts', '.tsx'],
-    // alias: {
-    //   components: path.resolve(__dirname, './src/components/'),
-    //   images: path.resolve(__dirname, './src/images/'),
-    // },
+    extensions: ['.js', '.jsx'],
   };
 
   if (isDevelopment) {
     config.plugins.push(
       new ErrorOverlayPlugin(),
-      new webpack.HotModuleReplacementPlugin()
+      new HotModuleReplacementPlugin(),
     );
 
     config.devServer = {
@@ -124,21 +119,35 @@ module.exports = (mode) => {
       open: true,
       compress: true,
       hot: true,
-      port: 8080,
+      port: 3000,
     };
   }
 
-  if (isProduction) {
+  if (env.production) {
     config.optimization = {
       minimize: true,
-      minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
+      minimizer: [
+        new TerserPlugin({ sourceMap: true }),
+        new OptimizeCSSAssetsPlugin({}),
+      ],
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            // split react and react-dom into a separate chunk
+            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+            name: 'react',
+            chunks: 'all',
+          },
+        },
+      },
+      runtimeChunk: 'single',
     };
 
     config.plugins.push(
       new MiniCssExtractPlugin({
-        filename: 'styles/[name].[contenthash].css',
+        filename: '[name].[contenthash].css',
         chunkFilename: '[id][contenthash].css',
-      })
+      }),
     );
   }
 

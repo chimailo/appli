@@ -1,7 +1,8 @@
-import * as React from 'react';
-import ImgReact from './assets/react.svg';
-import ImgBabel from './assets/babel.svg';
-import Imgwebpack from './assets/webpack.svg';
+import React from 'react';
+import Hello from './Hello';
+import ImgReact from '../images/react.svg';
+import ImgBabel from '../images/babel.svg';
+import Imgwebpack from '../images/webpack.svg';
 import './App.scss';
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
           <img src={ImgBabel} className="App-logo" alt="babel-logo" />
           <img src={ImgReact} className="App-logo" alt="react-logo" />
         </div>
-        <h1>Hello There!</h1>
+        <Hello />
       </header>
     </div>
   );
